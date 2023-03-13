@@ -1,5 +1,5 @@
 # Windows 10 AutoUnattend
-This repository is for the managment of AutoUnattend.xml answer files for the automated installation of Windows 10 via a USB removable flash drive. The answer file is created in Windows System Image Manager (WSIM) which is included in the Windows 10 ADK files. Although the repository says "Windows 10", answer files for other flavors of Windows 10 such Enterprise and Enterprise LTSC will be added in the near future.
+This repository is for the managment of AutoUnattend.xml answer files for the automated installation of Windows 10 via a USB removable flash drive. The answer file is created in Windows System Image Manager (WSIM) which is included in the Windows 10 ADK files. Although the repository says "Windows 10", answer files for other flavors of Windows 10 such as Enterprise and Enterprise LTSC will be added in the near future.
 
 ## Goal
 - That an Answer File in this repository does not deviate too much or at all from Microsoft's default values if possible. The Microsoft Deployment Toolkit (MDT) is Microsoft's free official method for deploying Windows 10 to computers which can also be used in conjuction with WDS. Therefore, converting for standalone USB installation should be as close as possible to the official method.
