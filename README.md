@@ -12,7 +12,7 @@ This repository is for the managment of AutoUnattend.xml answer files for the au
 5. Save answer file desired and rename as AutoUnattend.xml.
 6. Place AutoUnattend.xml on root of 'removable' USB drive.
 7. Have USB drive insterted into computer during install of Windows so Setup.exe can find it.
-8. Setup.exe finds the Answer File and installs Windows automatically with no user intervention required.
+8. Setup.exe finds AutoUnattend.xml and installs Windows automatically with no user intervention required.
 
 ## Building Notes
 - Answer Files are first generated in MDT and then edited with WSIM to be compatible for USB deployment (AutoUnattend.xml), keeping Microsoft's default values when images are imported into MDT. 
