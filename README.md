@@ -33,7 +33,8 @@ This repository is for the managment of an AutoUnattend.xml answer file for the 
  - powershell.exe -noninteractive -command "echo 'select volume r' 'set id=de94bba4-06d1-4d40-a16a-bfd50179d6ac' 'gpt attributes=0x8000000000000001' 'remove letter=R' | diskpart.exe"
  - reg delete "HKLM\SYSTEM\MountedDevices" /v "\DosDevices\R:" /f
  ```
-###### Recovery Tools Partition Information
+###### Recovery Tools Partition Information 
+[Source](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions)
 > Recovery tools partition
 > This partition must be at least 300 MB.
 >
@@ -50,3 +51,31 @@ This repository is for the managment of an AutoUnattend.xml answer file for the 
 > This partition must use the Type ID: DE94BBA4-06D1-4D40-A16A-BFD50179D6AC.
 >
 > The recovery tools should be in a separate partition than the Windows partition to support automatic failover and to support booting partitions encrypted with Windows BitLocker Drive Encryption.
+[Source](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-biosmbr-based-hard-drive-partitions)
+> Create a separate recovery partition to support automatic failover and to support booting Windows BitLocker Drive Encryption-encrypted partitions.
+>
+> We recommend that you place this partition in a separate partition, immediately after the Windows partition. 
+> This allows Windows to modify and recreate the partition later if future updates require a larger recovery image.
+>
+>The Windows Recovery Environment (Windows RE) tools require additional free space:
+>
+> A minimum of 52 MB is required but 250 MB is recommended, to accomodate future updates, especially with custom partition layouts.
+>
+> When calculating free space, note:
+>
+> The recovery image, winre.wim, is typically between 250-300MB, depending on what drivers, languages, and customizations you add.
+> The file system itself can take up additional space. 
+> For example, NTFS may reserve 5-15MB or more on a 750MB partition.
+
+> The Windows RE update process makes every effort to reuse the existing Windows RE partition without any modification. 
+> However, in some rare situations where the new Windows RE image (along with the migrated/injected contents) does not fit in the existing Windows RE partition, the > update process will behave as follows:
+>
+> If the existing Windows RE partition is located immediately after the Windows partition, the Windows partition will be shrunk and space will be added to the Windows > RE partition. The new Windows RE image will be installed onto the expanded Windows RE partition.
+>
+> If the existing Windows RE partition is not located immediately after the Windows partition, the Windows partition will be shrunk and a new Windows RE partition will > be created. 
+> The new Windows RE image will be installed onto this new Windows RE partition. 
+>
+> The existing Windows RE partition will be orphaned.
+If the existing Windows RE partition cannot be reused and the Windows partition cannot 
+successfully be shrunk, the new Windows RE image will be installed onto the Windows partition. 
+The existing Windows RE partition will be orphaned.
