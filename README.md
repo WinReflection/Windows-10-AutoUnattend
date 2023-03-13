@@ -26,6 +26,25 @@ This repository is for the managment of an AutoUnattend.xml answer file for the 
 - AutoUnattend.xml - Answer file for USB installtion, as close to the Microsoft's defaults as possible.
 ## Unattend.xml to AutoUnattend.xml Modications
 - When deploying an image with MDT everything is permored under LiteTouchPE which accesses the MDT Deployment Share which contains many scripts. When installing Windows via AutoUnattend.xml from a USB drive we don't have access to these scripts which create some limitations when trying to imitate the default configuration.
+#### Error & Depreciated Values Resolved
+ - The default Unattend.xml answer file had validation errors in WSIM, these have been fixed.
+```
+- The 'ColorDepth' element is invalid - The value '' is invalid according to its datatype 'ColorDepthType' - The string '' is not a valid UInt32 value.
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/Display/ColorDepth)
+
+- The 'HorizontalResolution' element is invalid - The value '' is invalid according to its datatype 'HorizontalResolutionType' - The string '' is not a valid UInt32 
+value.	
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/Display/HorizontalResolution)	
+
+- The 'RefreshRate' element is invalid - The value '' is invalid according to its datatype 'RefreshRateType' - The string '' is not a valid UInt32 value.
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/Display/RefreshRate)
+
+- The 'VerticalResolution' element is invalid - The value '' is invalid according to its datatype 'VerticalResolutionType' - The string '' is not a valid UInt32 value.
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/Display/VerticalResolution)
+
+- Setting NetworkLocation is deprecated in the Windows image
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/OOBE/NetworkLocation)
+```
 #### Disk Configuration: Recovery Partition
  - By default the Windows partition is set to use 99% of the drive after the System partitons are created and the Recovery partition is set to use the last remianing 1% of the drive space. WSIM does not offer a way to do this or even a shrink a partiton. You would need to use manual values which won't work since you can't predict the size of every disk in a computer for imaging. To get around this, 3 more RunSyncronousCommands were added to the Specialize phase.
 ```
