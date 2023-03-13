@@ -34,7 +34,9 @@ This repository is for the managment of an AutoUnattend.xml answer file for the 
  - reg delete "HKLM\SYSTEM\MountedDevices" /v "\DosDevices\R:" /f
  ```
 ###### Recovery Tools Partition Information 
-[Source](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions)
+- [UEFI/GPT-based hard drive partitions](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions)
+- [BIOS/MBR-based hard drive partitions](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-biosmbr-based-hard-drive-partitions)
+- [Windows Recovery Environment (Windows RE)](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-recovery-environment--windows-re--technical-reference)
 > Recovery tools partition
 > This partition must be at least 300 MB.
 >
@@ -51,7 +53,7 @@ This repository is for the managment of an AutoUnattend.xml answer file for the 
 > This partition must use the Type ID: DE94BBA4-06D1-4D40-A16A-BFD50179D6AC.
 >
 > The recovery tools should be in a separate partition than the Windows partition to support automatic failover and to support booting partitions encrypted with Windows BitLocker Drive Encryption.
-[Source](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-biosmbr-based-hard-drive-partitions)
+>
 > Create a separate recovery partition to support automatic failover and to support booting Windows BitLocker Drive Encryption-encrypted partitions.
 >
 > We recommend that you place this partition in a separate partition, immediately after the Windows partition. 
@@ -76,6 +78,6 @@ This repository is for the managment of an AutoUnattend.xml answer file for the 
 > The new Windows RE image will be installed onto this new Windows RE partition. 
 >
 > The existing Windows RE partition will be orphaned.
-If the existing Windows RE partition cannot be reused and the Windows partition cannot 
-successfully be shrunk, the new Windows RE image will be installed onto the Windows partition. 
-The existing Windows RE partition will be orphaned.
+> If the existing Windows RE partition cannot be reused and the Windows partition cannot successfully be shrunk, the new Windows RE image will be installed onto the
+> Windows partition. 
+> The existing Windows RE partition will be orphaned.
