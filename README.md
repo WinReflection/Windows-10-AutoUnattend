@@ -42,7 +42,7 @@ This repository is for the managment of AutoUnattend.xml answer files for the au
  ```
  
 ## Unattend.xml to AutoUnattend.xml Modications
-- When deploying an image with MDT everything is permored under LiteTouchPE which accesses the MDT Deployment Share which contains many scripts. When installing Windows via AutoUnattend.xml from a USB drive we don't have access to these scripts which create some limitations when trying to imitate the default configuration.
+- When deploying an image with MDT everything is performed under LiteTouchPE which accesses the MDT deployment share which contains many scripts. When installing Windows via AutoUnattend.xml from a USB 'removable' flash drive we don't have access to these scripts which creates some limitations when trying to clone the default configuration.
 
 #### Empty/Blank Values Removed
  - Emtpy or blank values have been removed as they causes issues, they're usually filled out mnaually during the LiteTouchPE dpeloymwnt wizard, for USB deployment they can be removed.
