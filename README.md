@@ -6,7 +6,7 @@ This repository is for the managment of AutoUnattend.xml answer files for the au
  
 ## Creation and Use
 1. Have official Windows 10 source media files.
-2. Windows 10 ADK and Microsoft Deploeyment Toolkit (MDT) installed on a supported version of Windows 11.
+2. Windows 10 ADK and Microsoft Deployment Toolkit (MDT) installed on a supported version of Windows 11.
 3. Generate catalog file (.clg) with Windows Image System Manager (WSIM) from source files.
 4. Create answer file in WSIM from available settings in the generated catalog file (.clg).
 5. Save answer file desired and rename as AutoUnattend.xml.
