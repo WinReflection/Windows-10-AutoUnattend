@@ -27,7 +27,26 @@ This repository is for the managment of an AutoUnattend.xml answer file for the 
 ## Unattend.xml to AutoUnattend.xml Modications
 - When deploying an image with MDT everything is permored under LiteTouchPE which accesses the MDT Deployment Share which contains many scripts. When installing Windows via AutoUnattend.xml from a USB drive we don't have access to these scripts which create some limitations when trying to imitate the default configuration.
 #### Disk Configuration: Recovery Partition
- - By default the Windows partition is set to us 99% of the drive after the System partitons are created and the Recovery partition is set to use the last remianing 1% of the drive space. WSIM does not offer a way to do this or even a shrink a partiton. You would need to use manual values which won't work since you can't predict the size of every disk in a computer for imaging. To get around this, 3 more RunSyncronousCommands were added to the Specialize phase.
+ - By default the Windows partition is set to use 99% of the drive after the System partitons are created and the Recovery partition is set to use the last remianing 1% of the drive space. WSIM does not offer a way to do this or even a shrink a partiton. You would need to use manual values which won't work since you can't predict the size of every disk in a computer for imaging. To get around this, 3 more RunSyncronousCommands were added to the Specialize phase.
+```
  - powershell.exe -noninteractive -command "echo 'select volume c' 'shrink minimum=300' 'create partition primary' 'format quick fs=ntfs label=Recovery' 'assign letter=R' | diskpart.exe"
  - powershell.exe -noninteractive -command "echo 'select volume r' 'set id=de94bba4-06d1-4d40-a16a-bfd50179d6ac' 'gpt attributes=0x8000000000000001' 'remove letter=R' | diskpart.exe"
  - reg delete "HKLM\SYSTEM\MountedDevices" /v "\DosDevices\R:" /f
+ ```
+###### Recovery Tools Partition Information
+> Recovery tools partition
+> This partition must be at least 300 MB.
+>
+> The Windows Recovery Environment (Windows RE) tools require additional free space:
+>
+> A minimum of 52 MB is required but 250 MB is recommended, to accomodate future updates, especially with custom partition layouts.
+>
+> When calculating free space, note:
+>
+> The recovery image, winre.wim, is typically between 250-300MB, depending on what drivers, 
+> languages, and customizations you add.
+> The file system itself can take up additional space. 
+> For example, NTFS may reserve 5-15MB or more on a 750MB partition.
+> This partition must use the Type ID: DE94BBA4-06D1-4D40-A16A-BFD50179D6AC.
+>
+> The recovery tools should be in a separate partition than the Windows partition to support automatic failover and to support booting partitions encrypted with Windows BitLocker Drive Encryption.
