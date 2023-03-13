@@ -68,7 +68,7 @@ This repository is for the managment of an AutoUnattend.xml answer file for the 
 > The recovery image, winre.wim, is typically between 250-300MB, depending on what drivers, languages, and customizations you add.
 > The file system itself can take up additional space. 
 > For example, NTFS may reserve 5-15MB or more on a 750MB partition.
-
+>
 > The Windows RE update process makes every effort to reuse the existing Windows RE partition without any modification. 
 > However, in some rare situations where the new Windows RE image (along with the migrated/injected contents) does not fit in the existing Windows RE partition, the > update process will behave as follows:
 >
