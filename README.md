@@ -41,7 +41,7 @@ This repository is for the management of AutoUnattend.xml answer files for the a
  md "C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\x86\WinPE_OCs"
  ```
  
-## Unattend.xml to AutoUnattend.xml Modications
+## Unattend.xml to AutoUnattend.xml Modifications
 - When deploying an image with MDT everything is performed under LiteTouchPE which accesses the MDT deployment share which contains many scripts. When installing Windows via AutoUnattend.xml from a USB 'removable' flash drive we don't have access to these scripts which creates some limitations when trying to clone the default configuration.
 
 #### Empty/Blank Values Removed
