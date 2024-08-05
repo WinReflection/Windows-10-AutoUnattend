@@ -6,7 +6,7 @@ This repository is for the management of AutoUnattend.xml answer files for the a
  
 ## Creation and Use
 1. Have official Windows 10 source media files.
-2. Windows 10 ADK and Microsoft Deployment Toolkit (MDT) installed on a supported version of Windows 11.
+2. Windows 11 ADK and Microsoft Deployment Toolkit (MDT) installed on a supported version of Windows 11.
 3. Generate catalog file (.clg) with Windows Image System Manager (WSIM) from source files.
 4. Create answer file in WSIM from available settings in the generated catalog file (.clg).
 5. Save answer file desired and rename as AutoUnattend.xml.
@@ -72,9 +72,12 @@ value.
 #### Disk Configuration: Recovery Partition
  - By default the Windows partition is set to use 99% of the drive after the System partitions are created and the Recovery partition is set to use the last remaining 1% of the drive space. WSIM does not offer a way to do this or even shrink a partition. You would need to use manual values which won't work since you can't predict the size of every disk in a computer for imaging. To get around this, 3 more RunSyncronousCommands were added to the Specialize phase.
 ```
- powershell.exe -noninteractive -command "echo 'select volume c' 'shrink minimum=300' 'create partition primary' 'format quick fs=ntfs label=Recovery' 'assign letter=R' | diskpart.exe"
- powershell.exe -noninteractive -command "echo 'select volume r' 'set id=de94bba4-06d1-4d40-a16a-bfd50179d6ac' 'gpt attributes=0x8000000000000001' 'remove letter=R' | diskpart.exe"
- reg delete "HKLM\SYSTEM\MountedDevices" /v "\DosDevices\R:" /f
+powershell.exe -noninteractive -command "reagentc /disable"
+powershell.exe -noninteractive -command "echo 'sel volume c' 'shrink minimum=768' 'create partition primary' 'format quick fs=ntfs label=Recovery' 'assign letter=R' | diskpart.exe"
+powershell.exe -noninteractive -command "echo 'sel volume r' 'set id=de94bba4-06d1-4d40-a16a-bfd50179d6ac' 'gpt attributes=0x8000000000000001' 'remove letter=R' | diskpart.exe"
+powershell.exe -noninteractive -command "reagentc /enable"
+reg delete "HKLM\SYSTEM\MountedDevices" /v "\DosDevices\R:" /f
+
  ```
 ###### Recovery Tools Partition Information 
 - [UEFI/GPT-based hard drive partitions](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions)
