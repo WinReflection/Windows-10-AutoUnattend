@@ -77,7 +77,6 @@ powershell.exe -noninteractive -command "echo 'sel volume c' 'shrink minimum=768
 powershell.exe -noninteractive -command "echo 'sel volume r' 'set id=de94bba4-06d1-4d40-a16a-bfd50179d6ac' 'gpt attributes=0x8000000000000001' 'remove letter=R' | diskpart.exe"
 powershell.exe -noninteractive -command "reagentc /enable"
 reg delete "HKLM\SYSTEM\MountedDevices" /v "\DosDevices\R:" /f
-
  ```
 ###### Recovery Tools Partition Information 
 - [UEFI/GPT-based hard drive partitions](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions)
