@@ -33,6 +33,7 @@ This repository is for the management of AutoUnattend.xml answer files for the a
 - Download and install Windows PE add-on for the Windows ADK for Windows 11, version 22H2, [here.](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)
 - Download and install Microsoft Deployment Toolkit, [here.](https://www.microsoft.com/en-us/download/details.aspx?id=54259)
 #### Patches:
+Please refer to Microsoft Deployment Toolkit Known Issues for help with various issues but I will list below the ones I had to use, [here.](https://learn.microsoft.com/en-us/mem/configmgr/mdt/known-issues)
 ###### FAILURE ( 5616 ): 15250: Verify BCDBootEx
 - Download and install MDT_KB4564442, [here.](https://support.microsoft.com/en-us/topic/windows-10-deployments-fail-with-microsoft-deployment-toolkit-on-computers-with-bios-type-firmware-70557b0b-6be3-81d2-556f-b313e29e2cb7)
 ###### Could not find a part of the path 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\x86\WinPE_OCs'.
