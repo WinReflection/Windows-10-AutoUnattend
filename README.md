@@ -19,10 +19,12 @@ Answer files (`AutoUnattend.xml`) for hands-off Windows installations from a **U
 
 ---
 
-## Why this repo?
+## Why This Repository?
 
 - **Stay close to defaults.** Start with MDT-generated `Unattend.xml`, then adapt only what’s needed for a USB-only flow—reducing surprises when Microsoft changes things.
+
 - **Document the deltas.** Every deviation from MDT/WSIM defaults is called out and justified.
+
 - **Be reproducible.** You can rebuild the exact same files yourself with ADK + MDT.
 
 > Releases: see **Releases** → right sidebar for tagged versions and change notes.
@@ -34,9 +36,9 @@ Answer files (`AutoUnattend.xml`) for hands-off Windows installations from a **U
 | Area | Supported / Required |
 |---|---|
 | Windows Images | Windows 10 (Pro/Enterprise/LTSC), 64-bit |
-| Source Media | Official MS ISO / volume media |
+| Source Media | Official Microsoft ISO / Media |
 | Build Host | Windows 11 (for newest ADK), or Windows 10 with matching ADK |
-| Tools | **Windows ADK** + **WinPE add-on** + **MDT** + **WSIM** |
+| Tools | **Windows ADK** + **WinPE Add-on** + **MDT** + **WSIM** |
 | Deployment | **USB *removable*** device with `AutoUnattend.xml` at root |
 
 ---
@@ -59,49 +61,84 @@ Answer files (`AutoUnattend.xml`) for hands-off Windows installations from a **U
 
 ## Step-by-Step: Build It Yourself
 
-1. Install tools (newest stable works great for Win10 images):
-   - Windows 11 **ADK** + **WinPE add-on**
+1. Install tools (newest stable works great for Windows 10 images):
+   - Windows 11 **ADK** + **WinPE Add-on**
    - **Microsoft Deployment Toolkit (MDT)**
    
 2. In MDT, import your Windows 10 media; create a Task Sequence.
 
 3. From the TS: **Right-click → Properties → Edit Unattend.xml** (this triggers WSIM to generate a **`.clg`** catalog, stored under your `Operating Systems\...\sources` path).
+
 4. Save the generated `Unattend.xml` and open in **WSIM** to review/adjust.
 
 5. For USB installs, adapt as shown below (or use this repo’s `AutoUnattend-*.xml` and tweak as desired).
 
-> The MDT Unattend default lives at: `%DeploymentShare%\Control\<TaskSequenceID>\Unattend.xml`  
-> WSIM catalogs: `%DeploymentShare%\Operating Systems\Windows 10 22H2 RTM x64\sources\install_Windows 10 Pro.clg`
+- The MDT generated Unattend.xml lives at:
+```
+%DeploymentShare%\Control\<TaskSequenceID>\Unattend.xml
+```
+- WSIM catalogs live at:
+```
+%DeploymentShare%\Operating Systems\Windows 10 22H2 RTM x64\sources\install_Windows 10 Pro.clg
+```
 
 ---
 
-## What’s changed vs. MDT defaults?
+## What’s Changed vs. MDT Defaults?
 
 <details>
-<summary><strong>1) Empty/blank values removed</strong></summary>
+<summary><strong>1) Empty/Blank Values Removed</strong></summary>
 
-Values left empty in MDT (often filled by LiteTouch wizard) can cause WSIM validation errors for USB usage. Remove those entries entirely so Setup doesn’t choke on invalid types.
+- Values left empty in MDT (often filled by LiteTouch wizard) can cause WSIM validation errors for USB usage. Remove those entries entirely so Setup doesn’t choke on invalid types.
 </details>
 
 <details>
-<summary><strong>2) Admin autologon (temporary)</strong></summary>
+<summary><strong>2) Admin AutoLogon (temporary)</strong></summary>
 
-Enable autologon for the built-in **Administrator** with password **`Password01!`** to run post-install steps without touch. **Change/disable** immediately via GPO or script after first sign-in.
+- Enable AutolLogon for the built-in **Administrator** with password **`Password01!`** to run post-install steps without touch. **Change/Disable** immediately via GPO or script after first sign-in.
 </details>
 
 <details>
-<summary><strong>3) WSIM validation fixes & deprecated settings</strong></summary>
+<summary><strong>3) WSIM Validation Fixes & Deprecated Settings</strong></summary>
 
-Resolve invalid Display elements (`ColorDepth`, `HorizontalResolution`, `RefreshRate`, `VerticalResolution`) and remove deprecated **NetworkLocation**. This keeps WSIM clean and prevents runtime surprises.
+- Resolve Invalid Display Elements (`ColorDepth`, `HorizontalResolution`, `RefreshRate`, `VerticalResolution`) and remove deprecated **NetworkLocation**. This keeps WSIM clean and prevents runtime surprises.
+
+Here are the exact blocks:
+```
+- The 'ColorDepth' element is invalid - The value '' is invalid according to its datatype 'ColorDepthType' - The string '' is not a valid UInt32 value.
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/Display/ColorDepth)
+
+- The 'HorizontalResolution' element is invalid - The value '' is invalid according to its datatype 'HorizontalResolutionType' - The string '' is not a valid UInt32 
+value.	
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/Display/HorizontalResolution)	
+
+- The 'RefreshRate' element is invalid - The value '' is invalid according to its datatype 'RefreshRateType' - The string '' is not a valid UInt32 value.
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/Display/RefreshRate)
+
+- The 'VerticalResolution' element is invalid - The value '' is invalid according to its datatype 'VerticalResolutionType' - The string '' is not a valid UInt32 value.
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/Display/VerticalResolution)
+
+- Setting NetworkLocation is deprecated in the Windows image
+(Components/oobeSystem/amd64_Microsoft-Windows-Shell-Setup_neutral/OOBE/NetworkLocation)
+```
 </details>
 
 <details>
-<summary><strong>4) Recovery partition layout (fully automated)</strong></summary>
+<summary><strong>4)Recovery Partition Layout (fully automated)</strong></summary>
 
-By default, Windows wants the OS partition to take ~99% and leave a **separate Recovery Tools** partition at the end. WSIM can’t “shrink after install,” so add `specialize` phase **RunSynchronous** commands to:
-- Disable WinRE → shrink C: by ~768 MB → create & format Recovery (R:)
-- Set the proper GPT type/id and attributes
-- Remove the temp drive letter and re-enable WinRE
+- By default, Windows wants the OS partition to take ~99% and leave a **separate Recovery Tools** partition at the end. WSIM can’t “shrink after install,” so add `specialize` phase **RunSynchronous** commands to:
+  1. Disable WinRE → shrink C: by ~768 MB → create & format Recovery (R:).
+  2. Set the proper GPT type/id and attributes.
+  3. Remove the temp drive letter and re-enable WinRE.
+
+Here are the PowerShell commands that complete this:
+```
+powershell.exe -noninteractive -command "reagentc /disable"
+powershell.exe -noninteractive -command "echo 'sel volume c' 'shrink minimum=768' 'create partition primary' 'format quick fs=ntfs label=Recovery' 'assign letter=R' | diskpart.exe"
+powershell.exe -noninteractive -command "echo 'sel volume r' 'set id=de94bba4-06d1-4d40-a16a-bfd50179d6ac' 'gpt attributes=0x8000000000000001' 'remove letter=R' | diskpart.exe"
+powershell.exe -noninteractive -command "reagentc /enable"
+reg delete "HKLM\SYSTEM\MountedDevices" /v "\DosDevices\R:" /f
+```
 
 Microsoft guidance recommends a separate Recovery partition after the OS, with minimum sizes noted for WinRE.
 </details>
@@ -124,21 +161,21 @@ Microsoft guidance recommends a separate Recovery partition after the OS, with m
 
 ## Troubleshooting
 
-### Setup didn’t use my `AutoUnattend.xml`
-**Likely causes**
+### Setup Didn’t Use My `AutoUnattend.xml`
+**Likely Causes:**
 - The USB is not seen as a **removable** device early in setup.
 - Storage/USB controller drivers missing in the image.
 - The file isn’t at the root or is mis-named.
 
-**Fix**
+**Potential Fixes:**
 - Try different USB port (rear I/O vs. hub), or a different model stick.
 - Slipstream storage/USB drivers or use newer media.
 - Confirm exact name: `AutoUnattend.xml` at root.
 
-### I saw the EULA once, then install continued
-Early OOBE can appear before the USB is fully enumerated, then Setup finds the file and continues unattended—this can be normal. Click **OK** and let it continue.
+### - I Saw The EULA Once, Then Install Continued
+- Early OOBE can appear before the USB is fully enumerated, then Setup finds the file and continues unattended—this can be normal. Click **OK** and let it continue.
 
-### MDT errors when generating catalogs / building PE
+### - MDT Errors When Generating Catalogs / Building LiteTouch PE
 
 <details>
 <summary><strong>FAILURE (5616): 15250 Verify BCDBootEx</strong></summary>
