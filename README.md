@@ -172,10 +172,10 @@ Microsoft guidance recommends a separate Recovery partition after the OS, with m
 - Slipstream storage/USB drivers or use newer media.
 - Confirm exact name: `AutoUnattend.xml` at root.
 
-### - I Saw The EULA Once, Then Install Continued
+### I Saw The EULA Once, Then Install Continued
 - Early OOBE can appear before the USB is fully enumerated, then Setup finds the file and continues unattended—this can be normal. Click **OK** and let it continue.
 
-### - MDT Errors When Generating Catalogs / Building LiteTouch PE
+### MDT Errors When Generating Catalogs / Building LiteTouch PE
 
 <details>
 <summary><strong>FAILURE (5616): 15250 Verify BCDBootEx</strong></summary>
