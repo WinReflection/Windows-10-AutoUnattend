@@ -113,6 +113,7 @@ Microsoft guidance recommends a separate Recovery partition after the OS, with m
 1. Format a **USB removable** device as FAT32/NTFS (UEFI systems read FAT32 best for bootable media).
 2. Copy Windows 10 setup files to the USB (or use the official Media Creation Tool).
 3. Copy/rename the answer file:
+
    ```text
    AutoUnattend-mdt-defaults-windows-10-pro-22h2-rtm.xml  →  AutoUnattend.xml
    ```
