@@ -4,7 +4,7 @@
 [![Repo Stars](https://img.shields.io/github/stars/WinReflection/Windows-10-AutoUnattend?style=social)](https://github.com/WinReflection/Windows-10-AutoUnattend/stargazers)
 [![License](https://img.shields.io/badge/License-MIT-informational.svg)](#license)
 
-Answer files (`AutoUnattend.xml`) for hands-off Windows installations from a **USB removable drive**—kept as close to Microsoft defaults as possible for predictable, supportable deployments. Built from MDT defaults, finalized with **Windows System Image Manager (WSIM)**.
+Answer files (`AutoUnattend.xml`) for hands-off Windows installations from a **USB removable drive**—kept as close to Microsoft defaults as possible for predictable, supportable deployments. Built from MDT defaults, finalized with [Windows System Image Manager (WSIM)](https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/wsim/windows-system-image-manager-technical-reference).
 
 ---
 
@@ -62,9 +62,12 @@ Answer files (`AutoUnattend.xml`) for hands-off Windows installations from a **U
 1. Install tools (newest stable works great for Win10 images):
    - Windows 11 **ADK** + **WinPE add-on**
    - **Microsoft Deployment Toolkit (MDT)**
+   
 2. In MDT, import your Windows 10 media; create a Task Sequence.
+
 3. From the TS: **Right-click → Properties → Edit Unattend.xml** (this triggers WSIM to generate a **`.clg`** catalog, stored under your `Operating Systems\...\sources` path).
 4. Save the generated `Unattend.xml` and open in **WSIM** to review/adjust.
+
 5. For USB installs, adapt as shown below (or use this repo’s `AutoUnattend-*.xml` and tweak as desired).
 
 > The MDT Unattend default lives at: `%DeploymentShare%\Control\<TaskSequenceID>\Unattend.xml`  
@@ -162,8 +165,16 @@ md "C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows
 
 ## References
 
-- Microsoft partitioning & WinRE guidance (UEFI/GPT, BIOS/MBR, and Windows RE).
-- MDT Known Issues and KB hotfix notes.
+- [Microsoft Partitioning & WinRE Guidance (UEFI/GPT)](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions)
+- [Microsoft Partitioning & WinRE Guidance (BIOS/MBR)](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-biosmbr-based-hard-drive-partitions)
+- [Windows Recovery Environment (Windows RE)](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-recovery-environment--windows-re--technical-reference)
+- [Microsoft Deployment Toolkit Known Issues](https://learn.microsoft.com/en-us/intune/configmgr/mdt/known-issues)
+- [Download and install Windows 11 Enterprise Evaluation 64-bit](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-11-enterprise)
+- [Download and install Windows ADK for Windows 11, version 22H2](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)
+- [Download and install Windows PE add-on for the Windows ADK for Windows 11, version 22H2](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)
+- [Download and install Microsoft Deployment Toolkit](https://www.microsoft.com/en-us/download/details.aspx?id=54259)
+- [Download and install MDT_KB4564442](https://support.microsoft.com/en-us/topic/windows-10-deployments-fail-with-microsoft-deployment-toolkit-on-computers-with-bios-type-firmware-70557b0b-6be3-81d2-556f-b313e29e2cb7)
+
 - This repository’s **Releases** page for tagged versions and change logs.
 
 ---
