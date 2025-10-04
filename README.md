@@ -124,7 +124,7 @@ value.
 </details>
 
 <details>
-<summary><strong>4)Recovery Partition Layout (fully automated)</strong></summary>
+<summary><strong>4) Recovery Partition Layout (fully automated)</strong></summary>
 
 - By default, Windows wants the OS partition to take ~99% and leave a **separate Recovery Tools** partition at the end. WSIM can’t “shrink after install,” so add `specialize` phase **RunSynchronous** commands to:
   1. Disable WinRE → shrink C: by ~768 MB → create & format Recovery (R:).
