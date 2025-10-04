@@ -131,7 +131,7 @@ value.
   2. Set the proper GPT type/id and attributes.
   3. Remove the temp drive letter and re-enable WinRE.
 
-Here are the PowerShell commands that complete this:
+Here are the commands that complete this:
 ```
 powershell.exe -noninteractive -command "reagentc /disable"
 powershell.exe -noninteractive -command "echo 'sel volume c' 'shrink minimum=768' 'create partition primary' 'format quick fs=ntfs label=Recovery' 'assign letter=R' | diskpart.exe"
